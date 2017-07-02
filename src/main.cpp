@@ -32,11 +32,15 @@ int get()
 	p+=point;
 	string s;
 	int times=0;
-	while(p[point+times]!=' ' && point+times<source.length())
+	if(point>=source.length())
+		return EOF;
+	while(p[point+times]!=' ' && point+times<s.length())
 	{
 		s+=p[point+times];
 		times++;
 	}
+	if(s=="")
+		return EOF;
 	if(s==";")
 		return EOS;
 	for(int i=0;i<sizeof(types)/sizeof(string);i++)
@@ -90,6 +94,7 @@ bool def_var()
 	n.name=get_string();
 	pass();
 	vars.push_back(n);
+	cout<<"Define a var:"<<n.type<<" "<<n.name<<endl;
 	return true;
 }
 
@@ -100,7 +105,7 @@ void pass()
 	while(source[point]!=' ' && source[point+1]!=';')
 		point++;
 	int times=0;
-	while(source[point]==' ')
+	while(source[point])
 	{
 		point++,times++;
 	}
@@ -132,6 +137,7 @@ int main()
 			{
 				case EOS:
 					pass();
+					cout<<"EOS"<<endl;
 					break;
 				case TYPE:
 					if(get()==OP)
